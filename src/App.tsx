@@ -1,8 +1,22 @@
+import { useMemo } from 'react'
+import { FiveOClockHero } from './components/FiveOClockHero'
+import { useNow } from './hooks/useNow'
+import { getFiveOClockReport } from './lib/fiveOClock'
+
 function App() {
+  const now = useNow()
+  // The report only changes when a minute ticks over; the seconds tick is
+  // for countdowns and the taskbar clock.
+  const minuteKey = Math.floor(now.getTime() / 60_000)
+  const report = useMemo(
+    () => getFiveOClockReport(new Date(minuteKey * 60_000)),
+    [minuteKey],
+  )
+
   return (
-    <main className="flex min-h-full items-center justify-center bg-desktop p-4">
-      <div className="bevel-out bg-face p-8 font-system text-black">
-        Loading happy hour&hellip;
+    <main className="min-h-full bg-desktop">
+      <div className="mx-auto flex max-w-4xl flex-col gap-4 p-3 sm:p-6">
+        <FiveOClockHero report={report} />
       </div>
     </main>
   )
