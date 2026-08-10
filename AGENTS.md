@@ -74,6 +74,11 @@ threadbare zone lists must stay.
    sweep a full simulated day and assert the featured place is always at 17:xx.
 3. UI changes: `npm run preview`, then screenshot with browser tooling at
    **1280×900** and **390×844** (mobile matters). Check the browser console.
+   **Also check WebKit** (`open -a Safari <url>` + `screencapture -x out.png`
+   on macOS) — Chrome alone is not enough. Known trap: WebKit ignores
+   `textLength` on `<textPath>` and silently drops glyphs past the path's end,
+   which is why WordArt fits text by shrinking `fontSize` (canvas-measured),
+   never by `textLength`.
 4. Test WordArt with extreme names via the easter-egg params:
    `/?city=Fiji`, `/?city=SredNekolymskLongName`, `/?style=chrome|wave|valley|sunset|fiesta`.
 
