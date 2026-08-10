@@ -7,6 +7,8 @@
  * no network calls, no bundled data.
  */
 
+import { ZONE_META } from './zoneMeta'
+
 const FIVE_PM = 17 * 60
 
 export interface Place {
@@ -15,6 +17,25 @@ export interface Place {
   region: string
   /** Minutes past local midnight, 0..1439 */
   localMinutes: number
+  /** "Australia" — absent for zones missing from zone.tab */
+  country?: string
+  lat?: number
+  lon?: number
+}
+
+const regionNames =
+  typeof Intl.DisplayNames === 'function'
+    ? new Intl.DisplayNames('en', { type: 'region' })
+    : undefined
+
+function countryName(code: string): string | undefined {
+  try {
+    const name = regionNames?.of(code)
+    // DisplayNames echoes unknown codes back; treat that as a miss.
+    return name && name !== code ? name : undefined
+  } catch {
+    return undefined
+  }
 }
 
 export interface FiveOClockReport {
@@ -92,11 +113,15 @@ function toPlace(zone: string, date: Date): Place | null {
     }
     if (Number.isNaN(hour) || Number.isNaN(minute)) return null
     const segments = zone.split('/')
+    const meta = ZONE_META[zone]
     return {
       zone,
       city: segments[segments.length - 1].replace(/_/g, ' '),
       region: segments[0],
       localMinutes: (hour % 24) * 60 + minute,
+      country: meta ? countryName(meta[0]) : undefined,
+      lat: meta?.[1],
+      lon: meta?.[2],
     }
   } catch {
     return null
