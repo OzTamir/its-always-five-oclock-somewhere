@@ -26,7 +26,7 @@ function App() {
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           <YourClock now={now} />
           <NextUp report={report} now={now} />
-          <PartyMeter report={report} />
+          <PartyMeter report={report} className="sm:col-span-2" />
         </div>
         <p className="text-center font-comic text-xs text-white/80">
           Made with 🍺 by{' '}

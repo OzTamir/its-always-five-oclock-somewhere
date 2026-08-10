@@ -3,12 +3,18 @@ import { Win95Window } from '../Win95Window'
 
 const BLOCKS = 20
 
-export function PartyMeter({ report }: { report: FiveOClockReport }) {
+export function PartyMeter({
+  report,
+  className,
+}: {
+  report: FiveOClockReport
+  className?: string
+}) {
   const percent = Math.round(report.pastFiveShare * 100)
   const filled = Math.round(report.pastFiveShare * BLOCKS)
 
   return (
-    <Win95Window title="GlobalStatus.exe" icon="🌍">
+    <Win95Window title="GlobalStatus.exe" icon="🌍" className={className}>
       <div className="flex flex-col gap-2">
         <p className="font-system text-sm">
           Scanning planet&hellip; <strong>{percent}%</strong> of the world is

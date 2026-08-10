@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { FiveOClockReport } from '../lib/fiveOClock'
 import { clockString, placeLabel } from '../lib/fiveOClock'
+import { GlobePanel } from './GlobePanel'
 import { Win95Window } from './Win95Window'
 import type { Variant } from './WordArt'
 import { CITY_VARIANTS, WordArt } from './WordArt'
@@ -37,11 +38,16 @@ export function FiveOClockHero({ report }: { report: FiveOClockReport }) {
       className="w-full"
     >
       <div className="flex flex-col items-center gap-0 px-1 py-2 sm:py-3">
-        <WordArt text="IT'S 5 O'CLOCK IN" variant="arch" className="max-w-xl" />
+        <WordArt
+          text="IT'S 5 O'CLOCK IN"
+          variant="arch"
+          palette={variant}
+          className="max-w-xl"
+        />
         <WordArt
           text={displayCity.toUpperCase()}
           variant={variant}
-          className="-mt-4 max-w-2xl sm:-mt-8"
+          className="-mt-6 max-w-xl sm:-mt-10"
         />
 
         {cityOverride ? (
@@ -50,6 +56,9 @@ export function FiveOClockHero({ report }: { report: FiveOClockReport }) {
           </p>
         ) : (
           <>
+            <div className="-mt-1 w-full max-w-sm sm:-mt-4">
+              <GlobePanel place={featured} />
+            </div>
             <p className="bevel-in mt-2 w-full max-w-xl bg-white px-3 py-2 text-center font-lcd text-sm font-bold sm:text-base">
               🕔 Local time in {placeLabel(featured)}:{' '}
               <span className="text-[#000080]">{clockString(featured)}</span>

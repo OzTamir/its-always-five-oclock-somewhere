@@ -14,6 +14,8 @@ export const CITY_VARIANTS: Variant[] = [
 interface WordArtProps {
   text: string
   variant?: Variant
+  /** Borrow another preset's colors while keeping this variant's geometry */
+  palette?: Variant
   className?: string
 }
 
@@ -127,25 +129,39 @@ const PRESETS: Record<Variant, Preset> = {
   },
 }
 
-export function WordArt({ text, variant = 'arch', className = '' }: WordArtProps) {
+export function WordArt({
+  text,
+  variant = 'arch',
+  palette,
+  className = '',
+}: WordArtProps) {
   const id = useId()
-  const preset = PRESETS[variant]
+  const geometry = PRESETS[variant]
+  const colors = PRESETS[palette ?? variant]
+  const preset = {
+    ...geometry,
+    stops: colors.stops,
+    stroke: colors.stroke,
+    shadow: colors.shadow,
+  }
   const gradientId = `wordart-fill-${id}`
   const pathId = `wordart-path-${id}`
   const fontFamily = "'Arial Black', 'Arial Bold', Impact, sans-serif"
 
+  // Stretch-to-fit like the real thing, but stop short names ("FIJI") from
+  // being pulled into taffy: never wider than ~1em per character.
   const textPathProps = {
     href: `#${pathId}`,
     startOffset: '50%',
     textAnchor: 'middle',
-    textLength: preset.textLength,
+    textLength: Math.min(preset.textLength, text.length * preset.fontSize),
     lengthAdjust: 'spacingAndGlyphs',
   } as const
 
   return (
     <svg
       viewBox={preset.viewBox}
-      className={`h-auto w-full ${className}`}
+      className={`h-auto w-full select-none ${className}`}
       role="img"
       aria-label={text}
     >
