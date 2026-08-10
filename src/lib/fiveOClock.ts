@@ -189,6 +189,11 @@ export function getFiveOClockReport(date: Date = new Date()): FiveOClockReport {
   }
 }
 
+/** "Lord Howe, Australia" — or just the city when the country is unknown. */
+export function placeLabel(p: Place): string {
+  return p.country ? `${p.city}, ${p.country}` : p.city
+}
+
 /** "17:08" style local clock reading for a place. */
 export function clockString(p: Place): string {
   const h = Math.floor(p.localMinutes / 60)

@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 import { FiveOClockHero } from './components/FiveOClockHero'
 import { Taskbar } from './components/Taskbar'
 import { Ticker } from './components/Ticker'
-import { Bartender } from './components/widgets/Bartender'
 import { NextUp } from './components/widgets/NextUp'
 import { PartyMeter } from './components/widgets/PartyMeter'
 import { YourClock } from './components/widgets/YourClock'
@@ -25,14 +24,21 @@ function App() {
         <Ticker report={report} />
         <FiveOClockHero report={report} />
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+          <YourClock now={now} />
           <NextUp report={report} now={now} />
           <PartyMeter report={report} />
-          <Bartender report={report} now={now} />
-          <YourClock now={now} />
         </div>
         <p className="text-center font-comic text-xs text-white/80">
-          itsalwaysfiveoclocksomewhere.com — est. 2026, designed for 1996 ·
-          please drink responsibly, wherever it&apos;s five
+          Made with 🍺 by{' '}
+          <a
+            href="https://oztamir.com"
+            target="_blank"
+            rel="noreferrer"
+            className="font-bold underline hover:text-sunny"
+          >
+            Oz Tamir
+          </a>{' '}
+          · please drink responsibly, wherever it&apos;s five
         </p>
       </div>
       <Taskbar now={now} />

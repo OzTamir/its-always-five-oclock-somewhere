@@ -1,4 +1,5 @@
 import type { FiveOClockReport } from '../../lib/fiveOClock'
+import { placeLabel } from '../../lib/fiveOClock'
 import { Win95Window } from '../Win95Window'
 
 export function NextUp({
@@ -21,7 +22,7 @@ export function NextUp({
       <div className="flex flex-col items-center gap-2 text-center">
         <p className="font-system text-sm">
           The clock strikes five next in{' '}
-          <strong className="text-[#000080]">{report.nextUp.city}</strong>
+          <strong className="text-[#000080]">{placeLabel(report.nextUp)}</strong>
         </p>
         <p
           className={`bevel-in bg-black px-4 py-1 font-lcd text-3xl font-bold ${

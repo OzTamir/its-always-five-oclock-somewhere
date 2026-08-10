@@ -1,12 +1,13 @@
 import type { FiveOClockReport } from '../lib/fiveOClock'
+import { placeLabel } from '../lib/fiveOClock'
 
 export function Ticker({ report }: { report: FiveOClockReport }) {
-  const cities = report.allAtFive
-    .map((p) => p.city)
+  const places = report.allAtFive
+    .map((p) => placeLabel(p))
     .filter((c, i, arr) => arr.indexOf(c) === i)
     .slice(0, 12)
 
-  const message = `+++ IT IS CURRENTLY 5 O'CLOCK IN: ${cities.join(' • ')} +++ BYOB +++ best viewed at 800×600 +++ `
+  const message = `+++ IT IS CURRENTLY 5 O'CLOCK IN: ${places.join(' • ')} `
 
   return (
     <div className="bevel-in overflow-hidden bg-black py-1 whitespace-nowrap">

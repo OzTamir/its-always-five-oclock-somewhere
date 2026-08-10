@@ -5,7 +5,7 @@ export function YourClock({ now }: { now: Date }) {
   const status = getLocalStatus(now)
 
   return (
-    <Win95Window title="Your Situation — Properties" icon="🖥️">
+    <Win95Window title="LocalStatus.exe" icon="🖥️">
       <div className="flex flex-col gap-1 font-system text-sm">
         <p>
           Your local time:{' '}

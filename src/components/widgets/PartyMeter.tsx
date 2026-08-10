@@ -8,7 +8,7 @@ export function PartyMeter({ report }: { report: FiveOClockReport }) {
   const filled = Math.round(report.pastFiveShare * BLOCKS)
 
   return (
-    <Win95Window title="Global Happy Hour Status" icon="🌍">
+    <Win95Window title="GlobalStatus.exe" icon="🌍">
       <div className="flex flex-col gap-2">
         <p className="font-system text-sm">
           Scanning planet&hellip; <strong>{percent}%</strong> of the world is
