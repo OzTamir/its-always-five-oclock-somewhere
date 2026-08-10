@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  /* Windows 95 palette */
+  --color-desktop: #008080;
+  --color-face: #c0c0c0;
+  --color-face-light: #dfdfdf;
+  --color-face-dark: #808080;
+  --color-face-darker: #0a0a0a;
+  --color-title-from: #000080;
+  --color-title-to: #1084d0;
+  --color-title-text: #ffffff;
+  --color-hotdog: #ff00ff;
+  --color-sunny: #ffff00;
+
+  /* Era-appropriate font stacks (system fonts only, zero downloads) */
+  --font-system: Tahoma, "MS Sans Serif", "Segoe UI", sans-serif;
+  --font-display: "Arial Black", "Arial Bold", Impact, sans-serif;
+  --font-comic: "Comic Sans MS", "Comic Neue", "Chalkboard SE", cursive;
+  --font-lcd: "Courier New", Courier, monospace;
+
+  --animate-marquee: marquee 25s linear infinite;
+  --animate-blink: blink 1.1s steps(1, end) infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--color-desktop);
+    font-family: var(--font-system);
+    -webkit-font-smoothing: none;
+  }
+}
+
+/* Classic raised chrome: light top-left, dark bottom-right, two steps deep */
+@utility bevel-out {
+  box-shadow:
+    inset -1px -1px 0 0 var(--color-face-darker),
+    inset 1px 1px 0 0 var(--color-face-light),
+    inset -2px -2px 0 0 var(--color-face-dark),
+    inset 2px 2px 0 0 #ffffff;
+}
+
+/* Sunken well, e.g. status bars and inputs */
+@utility bevel-in {
+  box-shadow:
+    inset 1px 1px 0 0 var(--color-face-dark),
+    inset -1px -1px 0 0 #ffffff,
+    inset 2px 2px 0 0 var(--color-face-darker),
+    inset -2px -2px 0 0 var(--color-face-light);
+}
+
+/* Thin single-step versions for small controls */
+@utility bevel-out-thin {
+  box-shadow:
+    inset -1px -1px 0 0 var(--color-face-darker),
+    inset 1px 1px 0 0 #ffffff;
+}
+
+@utility bevel-in-thin {
+  box-shadow:
+    inset 1px 1px 0 0 var(--color-face-dark),
+    inset -1px -1px 0 0 #ffffff;
+}
+
+@layer components {
+  .win-btn {
+    @apply bevel-out bg-face px-4 py-1 font-system text-sm text-black select-none active:bevel-in;
+  }
+
+  .win-btn:active > * {
+    transform: translate(1px, 1px);
+  }
+}
