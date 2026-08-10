@@ -16,9 +16,13 @@ export function FiveOClockHero({ report }: { report: FiveOClockReport }) {
       icon="🍹"
       className="w-full"
     >
-      <div className="flex flex-col items-center gap-1 px-1 py-2 sm:gap-2 sm:py-4">
-        <WordArt text="IT'S 5 O'CLOCK IN" variant="arch" />
-        <WordArt text={featured.city.toUpperCase()} variant="wave" />
+      <div className="flex flex-col items-center gap-0 px-1 py-2 sm:py-3">
+        <WordArt text="IT'S 5 O'CLOCK IN" variant="arch" className="max-w-xl" />
+        <WordArt
+          text={featured.city.toUpperCase()}
+          variant="wave"
+          className="-mt-4 max-w-2xl sm:-mt-8"
+        />
 
         <p className="bevel-in mt-2 flex w-full max-w-xl flex-wrap items-center justify-center gap-x-3 gap-y-1 bg-white px-3 py-2 text-center font-lcd text-sm font-bold sm:text-base">
           <span>
