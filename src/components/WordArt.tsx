@@ -129,6 +129,29 @@ const PRESETS: Record<Variant, Preset> = {
   },
 }
 
+const FONT_FAMILY = "'Arial Black', 'Arial Bold', Impact, sans-serif"
+
+let measureCtx: CanvasRenderingContext2D | null = null
+
+/**
+ * Shrink the font until the text's real rendered width fits the path.
+ *
+ * WebKit ignores textLength on <textPath> and simply drops glyphs that run
+ * past the end of the path (goodbye, "BRISBANE" → "BRISBA" on iOS), so
+ * compress-to-fit must happen via font size, not textLength. Canvas
+ * measurement uses whichever font the browser actually resolves, so the
+ * result is correct even where Arial Black doesn't exist.
+ */
+function fitFontSize(text: string, baseSize: number, maxWidth: number): number {
+  measureCtx ??= document.createElement('canvas').getContext('2d')
+  if (!measureCtx) return baseSize
+  measureCtx.font = `900 ${baseSize}px ${FONT_FAMILY}`
+  const width = measureCtx.measureText(text).width
+  if (width <= maxWidth) return baseSize
+  // 2% margin so antialiased edges never kiss the end of the path
+  return (baseSize * maxWidth * 0.98) / width
+}
+
 export function WordArt({
   text,
   variant = 'arch',
@@ -143,19 +166,15 @@ export function WordArt({
     stops: colors.stops,
     stroke: colors.stroke,
     shadow: colors.shadow,
+    fontSize: fitFontSize(text, geometry.fontSize, geometry.textLength),
   }
   const gradientId = `wordart-fill-${id}`
   const pathId = `wordart-path-${id}`
-  const fontFamily = "'Arial Black', 'Arial Bold', Impact, sans-serif"
 
-  // Stretch-to-fit like the real thing, but stop short names ("FIJI") from
-  // being pulled into taffy: never wider than ~1em per character.
   const textPathProps = {
     href: `#${pathId}`,
     startOffset: '50%',
     textAnchor: 'middle',
-    textLength: Math.min(preset.textLength, text.length * preset.fontSize),
-    lengthAdjust: 'spacingAndGlyphs',
   } as const
 
   return (
@@ -180,7 +199,7 @@ export function WordArt({
           opacity="0.85"
         >
           <text
-            fontFamily={fontFamily}
+            fontFamily={FONT_FAMILY}
             fontSize={preset.fontSize}
             fontWeight="900"
             fill={preset.shadow}
@@ -189,7 +208,7 @@ export function WordArt({
           </text>
         </g>
         <text
-          fontFamily={fontFamily}
+          fontFamily={FONT_FAMILY}
           fontSize={preset.fontSize}
           fontWeight="900"
           fill={`url(#${gradientId})`}
