@@ -1,2 +1,52 @@
-# its-always-five-oclock-somewhere
-It's Always Five O'Clock Somewhere!
+# It's Always Five O'Clock Somewhere 🍺
+
+[itsalwaysfiveoclocksomewhere.com](https://itsalwaysfiveoclocksomewhere.com) — a live
+world clock that tells you where on Earth it's currently 5 o'clock, in glorious
+Windows 95 WordArt.
+
+Because IANA timezone offsets span UTC-12:00 to UTC+14:00, at any moment at
+least one timezone's clock reads 17:xx. This site finds it, arches it in
+rainbow gradient Arial Black, and pinpoints it on a world map drawn entirely
+out of timezone reference cities.
+
+## How it works
+
+- **No backend, no APIs, no data downloads.** Everything derives from the
+  browser's own IANA timezone database via `Intl.supportedValuesOf('timeZone')`
+  and `Intl.DateTimeFormat`.
+- Country names and map coordinates come from a table generated off IANA
+  `zone.tab` (`scripts/generate-zone-meta.mjs`).
+- The city WordArt picks a random preset per visit (`wave`, `valley`,
+  `chrome`, `sunset`, `fiesta`). Try `?style=chrome` to pick one, or
+  `?city=Your Town` to make it 5 o'clock wherever you like.
+
+## Development
+
+```bash
+npm install
+npm run dev      # local dev server
+npm run build    # type-check + production build into dist/
+npm run preview  # serve the production build
+npm run lint     # oxlint
+```
+
+Built with Vite, React 19, TypeScript, and Tailwind CSS v4. System fonts only —
+the WordArt is SVG, not images.
+
+## Deploying (Cloudflare Pages)
+
+Connected via [Cloudflare Pages git integration](https://developers.cloudflare.com/pages/configuration/git-integration/):
+
+| Setting                | Value           |
+| ---------------------- | --------------- |
+| Production branch      | `main`          |
+| Build command          | `npm run build` |
+| Build output directory | `dist`          |
+
+No environment variables or framework preset required (the Vite preset works
+too and fills these in automatically).
+
+---
+
+Made with 🍺 by [Oz Tamir](https://oztamir.com). Please drink responsibly,
+wherever it's five.
