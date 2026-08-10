@@ -33,18 +33,20 @@ npm run lint     # oxlint
 Built with Vite, React 19, TypeScript, and Tailwind CSS v4. System fonts only —
 the WordArt is SVG, not images.
 
-## Deploying (Cloudflare Pages)
+## Deploying (Cloudflare Workers)
 
-Connected via [Cloudflare Pages git integration](https://developers.cloudflare.com/pages/configuration/git-integration/):
+Connected via [Workers git integration](https://developers.cloudflare.com/workers/ci-cd/builds/)
+as a static-assets Worker — `wrangler.jsonc` points at `dist/` and there is no
+server code:
 
-| Setting                | Value           |
-| ---------------------- | --------------- |
-| Production branch      | `main`          |
-| Build command          | `npm run build` |
-| Build output directory | `dist`          |
+| Setting           | Value                |
+| ----------------- | -------------------- |
+| Production branch | `main`               |
+| Build command     | `npm run build`      |
+| Deploy command    | `npx wrangler deploy` |
 
-No environment variables or framework preset required (the Vite preset works
-too and fills these in automatically).
+No environment variables or bindings required. Hashed assets under `/assets/*`
+get immutable cache headers via `public/_headers`.
 
 ---
 
