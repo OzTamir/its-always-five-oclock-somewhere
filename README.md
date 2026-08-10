@@ -33,6 +33,21 @@ npm run lint     # oxlint
 Built with Vite, React 19, TypeScript, and Tailwind CSS v4. System fonts only —
 the WordArt is SVG, not images.
 
+## Project layout
+
+```
+src/lib/fiveOClock.ts     the timezone engine (all the time math)
+src/lib/zoneMeta.ts       generated zone → country/lat/lon table (do not edit)
+scripts/                  generator for the above (reads IANA zone.tab)
+src/components/           WordArt, Win95 window chrome, hero, globe, ticker, taskbar
+src/components/widgets/   LocalStatus.exe, Next Round.exe, GlobalStatus.exe
+src/index.css             Tailwind v4 theme: Win95 palette, bevels, keyframes
+```
+
+Working on this with a coding agent? Read [AGENTS.md](./AGENTS.md) — it covers
+conventions, verification steps, and deploy constraints (`CLAUDE.md` points
+there too).
+
 ## Deploying (Cloudflare Workers)
 
 Connected via [Workers git integration](https://developers.cloudflare.com/workers/ci-cd/builds/)
