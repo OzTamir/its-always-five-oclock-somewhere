@@ -86,6 +86,13 @@ function getZones(): string[] {
   return zones.filter((z) => z.includes('/') && !z.startsWith('Etc/'))
 }
 
+/** Zone segments whose pretty name isn't just underscores-to-spaces. */
+const SPECIAL_CITY_NAMES: Record<string, string> = {
+  DumontDUrville: "Dumont d'Urville",
+  Ho_Chi_Minh: 'Ho Chi Minh City',
+  Port_of_Spain: 'Port of Spain',
+}
+
 const formatterCache = new Map<string, Intl.DateTimeFormat>()
 
 function getFormatter(zone: string): Intl.DateTimeFormat {
@@ -113,10 +120,11 @@ function toPlace(zone: string, date: Date): Place | null {
     }
     if (Number.isNaN(hour) || Number.isNaN(minute)) return null
     const segments = zone.split('/')
+    const lastSegment = segments[segments.length - 1]
     const meta = ZONE_META[zone]
     return {
       zone,
-      city: segments[segments.length - 1].replace(/_/g, ' '),
+      city: SPECIAL_CITY_NAMES[lastSegment] ?? lastSegment.replace(/_/g, ' '),
       region: segments[0],
       localMinutes: (hour % 24) * 60 + minute,
       country: meta ? countryName(meta[0]) : undefined,
