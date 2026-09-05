@@ -13,7 +13,8 @@ out of timezone reference cities.
 
 - **No backend, no APIs, no data downloads.** Everything derives from the
   browser's own IANA timezone database via `Intl.supportedValuesOf('timeZone')`
-  and `Intl.DateTimeFormat`.
+  and `Intl.DateTimeFormat`. The only thing the page phones home to is
+  [Plausible](https://plausible.io), for cookie-less visit counting.
 - Country names and map coordinates come from a table generated off IANA
   `zone.tab` (`scripts/generate-zone-meta.mjs`).
 - The city WordArt picks a random preset per visit (`wave`, `valley`,

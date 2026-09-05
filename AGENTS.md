@@ -12,7 +12,9 @@ way.
 
 - Vite + React 19 + TypeScript (strict), Tailwind CSS **v4** (CSS-first config)
 - No backend, no APIs, no fonts or assets fetched from anywhere — everything
-  derives from the browser's IANA timezone database via `Intl`
+  derives from the browser's IANA timezone database via `Intl`. The one
+  external request is the Plausible analytics snippet in `index.html`
+  (cookie-less pageview counting; never add tracking beyond that)
 - Deployed as a Cloudflare **Workers static-assets** project (not Pages)
 
 ## Commands
@@ -59,7 +61,8 @@ threadbare zone lists must stay.
   `src/index.css`. Win95 palette colors are theme tokens (`bg-face`,
   `bg-desktop`, `text-sunny`…); bevels are `bevel-out` / `bevel-in` /
   `*-thin`. System fonts only (`font-system`, `font-display`, `font-comic`,
-  `font-lcd`) — never add webfonts or any external resource.
+  `font-lcd`) — never add webfonts or any external resource (the Plausible
+  script tag in `index.html` is the sole, deliberate exception).
 - **Tailwind v4 gotcha**: `@apply` only works with real utilities — custom
   reusable classes must be declared with `@utility`, not `@layer components`.
 - **Names**: on-theme window titles (`SomethingStatus.exe`) and playful
